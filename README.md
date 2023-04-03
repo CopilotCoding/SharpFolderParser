@@ -3,4 +3,5 @@ This parses a folder for its structure of files and folder and outputs a text fi
 
 # C# code of the Program.cs file:
 
-https://github.com/CopilotCoding/SharpFolderParser/blob/main/Program.cs
++ Blob: https://github.com/CopilotCoding/SharpFolderParser/blob/main/Program.cs
++ Raw: https://raw.githubusercontent.com/CopilotCoding/SharpFolderParser/main/Program.cs

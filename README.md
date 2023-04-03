@@ -3,48 +3,48 @@ This parses a folder for its structure of files and folder and outputs a text fi
 
 # C# code from https://github.com/CopilotCoding/SharpFolderParser/blob/main/SharpFolderParser/Program.cs :
 
-namespace  SharpFolderParser
-{
-    internal class Program
+    namespace  SharpFolderParser
     {
-        static void Main(string[] args)
+        internal class Program
         {
-            Console.WriteLine("Enter a folder path:");
-            string rootPath = @Console.ReadLine();
-
-            while (!File.Exists(rootPath) && !Directory.Exists(rootPath))
+            static void Main(string[] args)
             {
-                Console.WriteLine("Invalid path. Please enter a valid file or folder path:");
-                rootPath = @Console.ReadLine();
+                Console.WriteLine("Enter a folder path:");
+                string rootPath = @Console.ReadLine();
+
+                while (!File.Exists(rootPath) && !Directory.Exists(rootPath))
+                {
+                    Console.WriteLine("Invalid path. Please enter a valid file or folder path:");
+                    rootPath = @Console.ReadLine();
+                }
+
+                Console.WriteLine("Enter the output file path:");
+                string outputPath = @Console.ReadLine();
+
+                using (StreamWriter writer = new StreamWriter(outputPath))
+                {
+                    TraverseDirectory(rootPath, writer, 0);
+                }
+
+                Console.WriteLine("Done.");
             }
 
-            Console.WriteLine("Enter the output file path:");
-            string outputPath = @Console.ReadLine();
-
-            using (StreamWriter writer = new StreamWriter(outputPath))
+            static void TraverseDirectory(string path, StreamWriter writer, int level)
             {
-                TraverseDirectory(rootPath, writer, 0);
-            }
+                string[] files = Directory.GetFiles(path);
+                string[] subdirectories = Directory.GetDirectories(path);
 
-            Console.WriteLine("Done.");
-        }
+                writer.WriteLine(new string('\t', level) + Path.GetFileName(path) + "\\");
 
-        static void TraverseDirectory(string path, StreamWriter writer, int level)
-        {
-            string[] files = Directory.GetFiles(path);
-            string[] subdirectories = Directory.GetDirectories(path);
+                foreach (string file in files)
+                {
+                    writer.WriteLine(new string('\t', level + 1) + Path.GetFileName(file));
+                }
 
-            writer.WriteLine(new string('\t', level) + Path.GetFileName(path) + "\\");
-
-            foreach (string file in files)
-            {
-                writer.WriteLine(new string('\t', level + 1) + Path.GetFileName(file));
-            }
-
-            foreach (string subdirectory in subdirectories)
-            {
-                TraverseDirectory(subdirectory, writer, level + 1);
+                foreach (string subdirectory in subdirectories)
+                {
+                    TraverseDirectory(subdirectory, writer, level + 1);
+                }
             }
         }
     }
-}
